@@ -8,6 +8,7 @@ import Scanner from "./pages/Scanner";
 import Open from "./pages/Open";
 import Donate from "./pages/Donate";
 import Chats from "./pages/Chats.jsx";
+import ErrorPage from "./pages/error.jsx";
 function App() {
   return (
     <Router>
@@ -20,6 +21,7 @@ function App() {
         <Route path="/donate" element={<Donate />} />
         <Route path="/open" element={<Open />} />
         <Route path="/chat/:queryId" element={<Chats />}/>
+        <Route path="/error" element={<ErrorPage/>}/>
       </Routes>
     </Router>
   );
