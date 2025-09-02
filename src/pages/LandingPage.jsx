@@ -1,6 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import AutoCarousel from "./Carousel";
+import AboutMeVideo from "./AboutMe";
+import Frame from "./Frame";
 function LandingPage() {
+    localStorage.clear();
   const navigate = useNavigate();
 
   function Login() {
@@ -15,6 +18,7 @@ function LandingPage() {
 
   return (
     <div className="landing-container">
+        <Frame/>
       {/* Hero Section */}
       <section className="hero-section">
         <div className="overlay">
@@ -49,6 +53,7 @@ function LandingPage() {
           scalable, accurate, and available 24/7.
         </p>
       </section>
+      <hr></hr>
 
       {/* Features Section */}
       <section className="info-section">
@@ -72,6 +77,7 @@ function LandingPage() {
           </li>
         </ul>
       </section>
+      <hr></hr>
 
       {/* Vision Section */}
       <section className="info-section">
@@ -100,6 +106,7 @@ function LandingPage() {
           </button>
         </div>
       </section>
+      <AboutMeVideo/>
     </div>
   );
 }

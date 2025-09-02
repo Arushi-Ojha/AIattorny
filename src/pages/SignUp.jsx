@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Frame from "./Frame";
 
 function Signup() {
+  localStorage.clear();
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -58,7 +60,9 @@ function Signup() {
   };
 
   return (
+    <><Frame/>
     <div className="auth-container signup-container">
+      
       {step === 1 ? (
         <>
           <h2>Signup</h2>
@@ -77,6 +81,7 @@ function Signup() {
       )}
       <button onClick={Login} className="auth-btn outline-btn">Already have an account?</button>
     </div>
+    </>
   );
 }
 

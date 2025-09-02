@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import Frame from "./Frame";
 
 function Chats() {
   const { queryId: paramQueryId } = useParams();
@@ -69,6 +70,8 @@ function Chats() {
   };
 
   return (
+    <>
+    <Frame/>
     <div className="chats-container">
       <div className="chats-messages">
         {messages.map((msg, idx) => {
@@ -105,6 +108,7 @@ function Chats() {
         </button>
       </div>
     </div>
+    </>
   );
 }
 

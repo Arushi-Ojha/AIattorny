@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Frame from "./Frame";
 
 function Open() {
     const [queries, setQueries] = useState([]);
@@ -18,6 +19,8 @@ function Open() {
     }, []);
 
     return (
+        <>
+        <Frame/>
         <div className="open-container">
             <h2 className="open-title">Public Queries</h2>
             {queries.map((q) => (
@@ -44,6 +47,7 @@ function Open() {
                 </div>
             ))}
         </div>
+        </>
     );
 }
 

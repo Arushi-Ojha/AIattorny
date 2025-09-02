@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Frame from "./Frame";
 
 function Login() {
+  localStorage.clear();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
@@ -34,12 +36,14 @@ function Login() {
   };
   const handleDemo = () => {
     setFormData({
-      username: "Arushi",
+      username: "DummyUser",
       password: "Arushi100@",
     });
   };
 
   return (
+    <>
+    <Frame/>
     <div className="auth-container login-container">
       <h2>Login</h2>
       <input
@@ -62,6 +66,7 @@ function Login() {
       <button onClick={handleDemo} className="auth-btn outline-btn">Demo Test</button>
       <button onClick={Signup} className="auth-btn outline-btn">Don't have an account?</button>
     </div>
+    </>
   );
 }
 
