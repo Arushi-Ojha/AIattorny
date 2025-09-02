@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Signup() {
-    var navigate = useNavigate();
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     username: "",
@@ -52,29 +52,30 @@ function Signup() {
       alert("Signup failed!");
     }
   };
-  function Login(){
-    navigate('/login');
-  }
+
+  const Login = () => {
+    navigate("/login");
+  };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="auth-container signup-container">
       {step === 1 ? (
         <>
           <h2>Signup</h2>
-          <input type="text" name="username" placeholder="Username" onChange={handleChange} /><br />
-          <input type="email" name="email" placeholder="Email" onChange={handleChange} /><br />
-          <input type="password" name="password" placeholder="Password" onChange={handleChange} /><br />
-          <input type="password" name="confirmPassword" placeholder="Confirm Password" onChange={handleChange} /><br />
-          <button onClick={checkUser}>Send OTP</button>
+          <input type="text" name="username" placeholder="Username" onChange={handleChange} className="auth-input" />
+          <input type="email" name="email" placeholder="Email" onChange={handleChange} className="auth-input" />
+          <input type="password" name="password" placeholder="Password" onChange={handleChange} className="auth-input" />
+          <input type="password" name="confirmPassword" placeholder="Confirm Password" onChange={handleChange} className="auth-input" />
+          <button onClick={checkUser} className="auth-btn primary-btn">Send OTP</button>
         </>
       ) : (
         <>
           <h2>Enter OTP</h2>
-          <input type="text" name="otp" placeholder="Enter OTP" onChange={handleChange} /><br />
-          <button onClick={handleSignup}>Verify & Signup</button>
+          <input type="text" name="otp" placeholder="Enter OTP" onChange={handleChange} className="auth-input" />
+          <button onClick={handleSignup} className="auth-btn primary-btn">Verify & Signup</button>
         </>
       )}
-      <button onClick={Login}>already have an account?</button>
+      <button onClick={Login} className="auth-btn outline-btn">Already have an account?</button>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-
+import AutoCarousel from "./Carousel";
 function LandingPage() {
   const navigate = useNavigate();
 
@@ -10,7 +10,7 @@ function LandingPage() {
     navigate("/open");
   }
   function Donate() {
-    navigate("/donate");
+    navigate("/error");
   }
 
   return (
@@ -36,6 +36,7 @@ function LandingPage() {
           </div>
         </div>
       </section>
+      <AutoCarousel/>
 
       {/* About Section */}
       <section className="info-section">

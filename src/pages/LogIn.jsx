@@ -1,9 +1,9 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Login() {
-  var navigate = useNavigate();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -28,17 +28,39 @@ function Login() {
       alert("Login failed!");
     }
   };
-  function Signup(){
-    navigate('/register');
-  }
+
+  const Signup = () => {
+    navigate("/register");
+  };
+  const handleDemo = () => {
+    setFormData({
+      username: "Arushi",
+      password: "Arushi100@",
+    });
+  };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="auth-container login-container">
       <h2>Login</h2>
-      <input type="text" name="username" placeholder="Username" onChange={handleChange} /><br />
-      <input type="password" name="password" placeholder="Password" onChange={handleChange} /><br />
-      <button onClick={handleLogin}>Login</button>
-      <button onClick={Signup}>dont have a account?</button>
+      <input
+        type="text"
+        name="username"
+        placeholder="Username"
+        value={formData.username}
+        onChange={handleChange}
+        className="auth-input"
+      />
+      <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        value={formData.password}
+        onChange={handleChange}
+        className="auth-input"
+      />
+      <button onClick={handleLogin} className="auth-btn primary-btn">Login</button>
+      <button onClick={handleDemo} className="auth-btn outline-btn">Demo Test</button>
+      <button onClick={Signup} className="auth-btn outline-btn">Don't have an account?</button>
     </div>
   );
 }

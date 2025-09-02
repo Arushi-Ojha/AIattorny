@@ -17,24 +17,30 @@ function Open() {
         fetchQueries();
     }, []);
 
-
     return (
-        <div>
-            <h2>Public Queries</h2>
+        <div className="open-container">
+            <h2 className="open-title">Public Queries</h2>
             {queries.map((q) => (
-                <div key={q.id} className="query-card">
-                    <h4>{q.query_topic}</h4>
-                    <p>Asked by: {q.username}</p>
-                    <button onClick={() => alert(q.query_description)}>Description</button>
-                    <button
-                        onClick={() => {
-                            localStorage.setItem("query_id", q.id); // save query id
-                            window.location.href = `http://localhost:5173/chat/${q.id}`;
-                        }}
-                    >
-                        Chat
-                    </button>
-
+                <div key={q.id} className="open-query-card">
+                    <h4 className="open-query-topic">{q.query_topic}</h4>
+                    <p className="open-query-user">Asked by: {q.username}</p>
+                    <div className="open-buttons">
+                        <button
+                            className="open-button open-button-description"
+                            onClick={() => alert(q.query_description)}
+                        >
+                            Description
+                        </button>
+                        <button
+                            className="open-button open-button-chat"
+                            onClick={() => {
+                                localStorage.setItem("query_id", q.id);
+                                window.location.href = `http://localhost:5173/chat/${q.id}`;
+                            }}
+                        >
+                            Chat
+                        </button>
+                    </div>
                 </div>
             ))}
         </div>

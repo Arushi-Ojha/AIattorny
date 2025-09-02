@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import axios from "axios";
 
@@ -33,23 +32,31 @@ function Scanner() {
   };
 
   return (
-    <div className="scanner">
-      <h2>Scan Legal Document Images</h2>
+    <div className="scanner-container">
+      <h2 className="scanner-title">Hey Buddy! You can upload your documents here!</h2>
+      
       <input
         type="text"
         placeholder="Document Name"
         value={docName}
         onChange={(e) => setDocName(e.target.value)}
+        className="scanner-input"
       />
 
-      <input type="file" accept="image/*" multiple onChange={handleFileChange} />
+      <input
+        type="file"
+        accept="image/*"
+        multiple
+        onChange={handleFileChange}
+        className="scanner-file-input"
+      />
 
-      <button onClick={handleScan}>Interpret</button>
+      <button onClick={handleScan} className="scanner-btn scan-btn">Interpret</button>
 
       {interpreted && (
-        <div className="result">
-          <h3>AI Interpretation:</h3>
-          <p>{interpreted}</p>
+        <div className="scanner-result">
+          <h3 className="result-title">AI Interpretation:</h3>
+          <p className="result-text">{interpreted}</p>
         </div>
       )}
     </div>
