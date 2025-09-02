@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import Arushi from "../assets/Arushi_explaining_AIattorney.mp4"
+import Arushi from "../assets/Arushi.mp4"
 function AboutMeVideo() {
   const videoRef = useRef(null);
   const containerRef = useRef(null);
