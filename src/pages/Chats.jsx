@@ -4,12 +4,24 @@ import axios from "axios";
 import Frame from "./Frame";
 
 function Chats() {
+  // Generate persistent Anonymous ID
+  function getAnonymousId() {
+    let anonId = localStorage.getItem("anon_id");
+    if (!anonId) {
+      const randomNum = Math.floor(1000 + Math.random() * 9000); // 4-digit number
+      anonId = `Anonymous${randomNum}`;
+      localStorage.setItem("anon_id", anonId);
+    }
+    return anonId;
+  }
+
   const { queryId: paramQueryId } = useParams();
   const queryId = paramQueryId || localStorage.getItem("query_id");
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
-  const userId = localStorage.getItem("user_id");
   const messagesEndRef = useRef(null);
+
+  const anonId = getAnonymousId(); // 👈 always use this
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -43,14 +55,15 @@ function Chats() {
     try {
       await axios.post("http://localhost:5000/documents/chats", {
         query_id: queryId,
-        sender_id: userId,
+        sender_id: anonId, // 👈 send anonymous
         message: messageToSend,
       });
+
       setMessages((prev) => [
         ...prev,
         {
-          sender_id: userId,
-          username: "You",
+          sender_id: anonId, // 👈 keep consistent
+          username: anonId, // 👈 show as AnonymousXXXX
           message: messageToSend,
           created_at: new Date().toISOString(),
         },
@@ -71,43 +84,45 @@ function Chats() {
 
   return (
     <>
-    <Frame/>
-    <div className="chats-container">
-      <div className="chats-messages">
-        {messages.map((msg, idx) => {
-          const isMe = msg.sender_id == userId;
-          return (
-            <div
-              key={idx}
-              className={`chats-message ${isMe ? "me" : "other"}`}
-            >
-              {!isMe && <div className="chats-sender">{msg.username}</div>}
-              <div>{msg.message}</div>
-              <div className="chats-time">
-                {new Date(msg.created_at).toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
+      <Frame />
+      <div className="chats-container">
+        <div className="chats-messages">
+          {messages.map((msg, idx) => {
+            const isMe = msg.sender_id === anonId; // 👈 compare with anonId
+            return (
+              <div
+                key={idx}
+                className={`chats-message ${isMe ? "me" : "other"}`}
+              >
+                {!isMe && (
+                  <div className="chats-sender">{msg.username || msg.sender_id}</div>
+                )}
+                <div>{msg.message}</div>
+                <div className="chats-time">
+                  {new Date(msg.created_at).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </div>
               </div>
-            </div>
-          );
-        })}
-        <div ref={messagesEndRef} />
-      </div>
+            );
+          })}
+          <div ref={messagesEndRef} />
+        </div>
 
-      <div className="chats-input-container">
-        <textarea
-          className="chats-input"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          onKeyPress={handleKeyPress}
-          placeholder="Type a message..."
-        />
-        <button className="chats-send-button" onClick={sendMessage}>
-          Send
-        </button>
+        <div className="chats-input-container">
+          <textarea
+            className="chats-input"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            onKeyPress={handleKeyPress}
+            placeholder="Type a message..."
+          />
+          <button className="chats-send-button" onClick={sendMessage}>
+            Send
+          </button>
+        </div>
       </div>
-    </div>
     </>
   );
 }

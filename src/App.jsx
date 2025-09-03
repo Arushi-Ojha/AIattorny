@@ -10,6 +10,7 @@ import Donate from "./pages/Donate";
 import Chats from "./pages/Chats.jsx";
 import ErrorPage from "./pages/error.jsx";
 import ProtectedRoute from "./ProtectedRoute.jsx";
+import LawyerSignup from "./pages/LawyerSignUp.jsx";
 function App() {
   return (
     <Router>
@@ -23,6 +24,7 @@ function App() {
         <Route path="/open" element={<Open />} />
         <Route path="/chat/:queryId" element={<Chats />}/>
         <Route path="/error" element={<ErrorPage/>}/>
+        <Route path="/lawsign" element={<LawyerSignup/>}/>
       </Routes>
     </Router>
   );

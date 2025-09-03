@@ -10,7 +10,7 @@ function LandingPage() {
     navigate("/login");
   }
   function Open() {
-    navigate("/open");
+    navigate("/lawsign");
   }
   function Donate() {
     navigate("/error");

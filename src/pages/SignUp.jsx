@@ -46,6 +46,7 @@ function Signup() {
       const res = await axios.post("http://localhost:5000/auth/signup", formData);
       if (res.data.success) {
         alert("Signup successful!");
+        navigate('/open')
       } else {
         alert(res.data.error);
       }
