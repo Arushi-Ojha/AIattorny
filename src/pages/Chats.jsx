@@ -4,24 +4,18 @@ import axios from "axios";
 import Frame from "./Frame";
 
 function Chats() {
-  // Generate persistent Anonymous ID
-  function getAnonymousId() {
-    let anonId = localStorage.getItem("anon_id");
-    if (!anonId) {
-      const randomNum = Math.floor(1000 + Math.random() * 9000); // 4-digit number
-      anonId = `Anonymous${randomNum}`;
-      localStorage.setItem("anon_id", anonId);
-    }
-    return anonId;
-  }
-
   const { queryId: paramQueryId } = useParams();
   const queryId = paramQueryId || localStorage.getItem("query_id");
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
   const messagesEndRef = useRef(null);
 
-  const anonId = getAnonymousId(); // 👈 always use this
+  // ✅ Decide whether current sender is a user or a lawyer
+  const userId = localStorage.getItem("user_id");
+  const lawyerId = localStorage.getItem("lawyer_id");
+
+  const senderId = userId || lawyerId; // whichever exists
+  const senderType = userId ? "user" : "attorney";
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -32,15 +26,21 @@ function Chats() {
     if (!queryId) return;
 
     const fetchMessages = async () => {
-      try {
-        const res = await axios.get(
-          `http://localhost:5000/documents/chats/${queryId}`
-        );
-        setMessages(res.data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
+  try {
+    const res = await axios.get(
+      `http://localhost:5000/documents/chats/${queryId}/${senderId}`
+    );
+
+    const sorted = res.data.chats.sort(
+      (a, b) => new Date(a.created_at) - new Date(b.created_at)
+    );
+
+    setMessages(sorted);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 
     fetchMessages();
     const interval = setInterval(fetchMessages, 2000);
@@ -55,15 +55,17 @@ function Chats() {
     try {
       await axios.post("http://localhost:5000/documents/chats", {
         query_id: queryId,
-        sender_id: anonId, // 👈 send anonymous
+        sender_id: senderId,      // ✅ dynamic id
+        sender_type: senderType,  // ✅ "user" or "attorney"
         message: messageToSend,
       });
 
       setMessages((prev) => [
         ...prev,
         {
-          sender_id: anonId, // 👈 keep consistent
-          username: anonId, // 👈 show as AnonymousXXXX
+          sender_id: senderId,
+          sender_type: senderType,
+          username: "You",
           message: messageToSend,
           created_at: new Date().toISOString(),
         },
@@ -88,15 +90,13 @@ function Chats() {
       <div className="chats-container">
         <div className="chats-messages">
           {messages.map((msg, idx) => {
-            const isMe = msg.sender_id === anonId; // 👈 compare with anonId
+            const isMe = msg.sender_id == senderId && msg.sender_type === senderType;
             return (
               <div
                 key={idx}
                 className={`chats-message ${isMe ? "me" : "other"}`}
               >
-                {!isMe && (
-                  <div className="chats-sender">{msg.username || msg.sender_id}</div>
-                )}
+                {!isMe && <div className="chats-sender">{msg.username}</div>}
                 <div>{msg.message}</div>
                 <div className="chats-time">
                   {new Date(msg.created_at).toLocaleTimeString([], {

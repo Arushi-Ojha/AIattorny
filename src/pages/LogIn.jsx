@@ -18,51 +18,60 @@ function Login() {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  
+
   const handleLogin = async () => {
-  try {
-    let res;
-    if (userType === "user") {
-      // User login
-      res = await axios.post("http://localhost:5000/auth/user/login", {
-        username: formData.username,
-        password: formData.password,
-      });
+    try {
+      let res;
+      if (userType === "user") {
+        // User login
+        res = await axios.post("http://localhost:5000/auth/user/login", {
+          username: formData.username,
+          password: formData.password,
+        });
 
-      if (res.data.success) {
-        // Get user_id after successful login
-        const idRes = await axios.get(
-          `http://localhost:5000/auth/get-userid/${formData.username}`
-        );
+        if (res.data.success) {
+          // Get user_id after successful login
+          const idRes = await axios.get(
+            `http://localhost:5000/auth/get-userid/${formData.username}`
+          );
 
-        localStorage.setItem("username", res.data.user.username);
-        localStorage.setItem("user_id", idRes.data.user_id); // save user_id
-        alert("User login successful!");
-        window.location.href = "/dashboard";
+          localStorage.setItem("username", res.data.user.username);
+          localStorage.setItem("user_id", idRes.data.user_id); // save user_id
+          alert("User login successful!");
+          window.location.href = "/dashboard";
+        } else {
+          alert(res.data.error);
+        }
       } else {
-        alert(res.data.error);
-      }
-    } else {
-      // Lawyer login
-      res = await axios.post("http://localhost:5000/auth/lawyer/login", {
-        email: formData.email,
-        dob: formData.dob,
-      });
+        // Lawyer login
+        // Lawyer login
+        res = await axios.post("http://localhost:5000/auth/lawyer/login", {
+          email: formData.email,
+          dob: formData.dob,
+        });
 
-      if (res.data.success) {
-        localStorage.setItem("lawyer_email", res.data.lawyer.contact_email);
-        localStorage.setItem("lawyer_name", res.data.lawyer.full_name);
-        alert("Lawyer login successful!");
-        window.location.href = "/open";
-      } else {
-        alert(res.data.message);
+        if (res.data.success) {
+          // ✅ Fetch lawyer_id after successful login
+          const idRes = await axios.get(
+            `http://localhost:5000/documents/attorney-id/${formData.email}`
+          );
+
+          localStorage.setItem("lawyer_email", res.data.lawyer.contact_email);
+          localStorage.setItem("lawyer_name", res.data.lawyer.full_name);
+          localStorage.setItem("lawyer_id", idRes.data.attorney_id); // ✅ Save lawyer_id
+
+          alert("Lawyer login successful!");
+          window.location.href = "/open";
+        } else {
+          alert(res.data.message);
+        }
+
       }
+    } catch (err) {
+      console.error(err);
+      alert("Login failed!");
     }
-  } catch (err) {
-    console.error(err);
-    alert("Login failed!");
-  }
-};
+  };
 
 
   const handleDemo = () => {
