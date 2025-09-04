@@ -8,7 +8,7 @@ function Open() {
     useEffect(() => {
         const fetchQueries = async () => {
             try {
-                const res = await axios.get("http://localhost:5000/documents/queries");
+                const res = await axios.get(`https://c5ncaxcfy75src72lftiertdgm0wvqiy.lambda-url.ap-southeast-2.on.aws/documents/queries`);
                 setQueries(res.data);
             } catch (err) {
                 console.error(err);
@@ -38,7 +38,7 @@ function Open() {
                             className="open-button open-button-chat"
                             onClick={() => {
                                 localStorage.setItem("query_id", q.id);
-                                window.location.href = `http://localhost:5173/chat/${q.id}`;
+                                window.location.href = `https://main.d24a1q9kkmcgrx.amplifyapp.com/chat/${q.id}`;
                             }}
                         >
                             Chat

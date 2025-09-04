@@ -31,7 +31,7 @@ function Scanner() {
       });
 
       const res = await axios.post(
-        "http://localhost:5000/documents/scan-images",
+        `https://c5ncaxcfy75src72lftiertdgm0wvqiy.lambda-url.ap-southeast-2.on.aws/documents/scan-images`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },

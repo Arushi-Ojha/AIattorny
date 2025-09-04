@@ -28,7 +28,7 @@ function Chats() {
     const fetchMessages = async () => {
   try {
     const res = await axios.get(
-      `http://localhost:5000/documents/chats/${queryId}/${senderId}`
+      `https://c5ncaxcfy75src72lftiertdgm0wvqiy.lambda-url.ap-southeast-2.on.aws/documents/chats/${queryId}/${senderId}`
     );
 
     const sorted = res.data.chats.sort(
@@ -53,7 +53,7 @@ function Chats() {
     setText("");
 
     try {
-      await axios.post("http://localhost:5000/documents/chats", {
+      await axios.post("https://c5ncaxcfy75src72lftiertdgm0wvqiy.lambda-url.ap-southeast-2.on.aws/documents/chats", {
         query_id: queryId,
         sender_id: senderId,      // ✅ dynamic id
         sender_type: senderType,  // ✅ "user" or "attorney"

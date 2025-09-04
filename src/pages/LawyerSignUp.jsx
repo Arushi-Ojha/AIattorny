@@ -31,7 +31,7 @@ function LawyerSignup() {
   // Step 1: Send OTP after document verification
  const sendOtp = async () => {
   try {
-    const res = await axios.post("http://localhost:5000/auth/lawyer/send-otp", formData);
+    const res = await axios.post(`https://c5ncaxcfy75src72lftiertdgm0wvqiy.lambda-url.ap-southeast-2.on.aws/auth/lawyer/send-otp`, formData);
     if (res.data.success) {
       alert("OTP sent to your email!");
       setStep(2);
@@ -52,7 +52,7 @@ function LawyerSignup() {
   // Step 2: Verify OTP and register lawyer
   const handleSignup = async () => {
     try {
-      const res = await axios.post("http://localhost:5000/auth/lawyer/signup", {
+      const res = await axios.post(`https://c5ncaxcfy75src72lftiertdgm0wvqiy.lambda-url.ap-southeast-2.on.aws/auth/lawyer/signup`, {
         otp: formData.otp,
         lawyerData: formData,
       });

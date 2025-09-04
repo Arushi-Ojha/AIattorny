@@ -24,7 +24,7 @@ function Login() {
       let res;
       if (userType === "user") {
         // User login
-        res = await axios.post("http://localhost:5000/auth/user/login", {
+        res = await axios.post(`https://c5ncaxcfy75src72lftiertdgm0wvqiy.lambda-url.ap-southeast-2.on.aws/auth/user/login`, {
           username: formData.username,
           password: formData.password,
         });
@@ -32,7 +32,7 @@ function Login() {
         if (res.data.success) {
           // Get user_id after successful login
           const idRes = await axios.get(
-            `http://localhost:5000/auth/get-userid/${formData.username}`
+            `https://c5ncaxcfy75src72lftiertdgm0wvqiy.lambda-url.ap-southeast-2.on.aws/auth/get-userid/${formData.username}`
           );
 
           localStorage.setItem("username", res.data.user.username);
@@ -45,7 +45,7 @@ function Login() {
       } else {
         // Lawyer login
         // Lawyer login
-        res = await axios.post("http://localhost:5000/auth/lawyer/login", {
+        res = await axios.post(`https://c5ncaxcfy75src72lftiertdgm0wvqiy.lambda-url.ap-southeast-2.on.aws/auth/lawyer/login`, {
           email: formData.email,
           dob: formData.dob,
         });
@@ -53,7 +53,7 @@ function Login() {
         if (res.data.success) {
           // ✅ Fetch lawyer_id after successful login
           const idRes = await axios.get(
-            `http://localhost:5000/documents/attorney-id/${formData.email}`
+            `https://c5ncaxcfy75src72lftiertdgm0wvqiy.lambda-url.ap-southeast-2.on.aws/documents/attorney-id/${formData.email}`
           );
 
           localStorage.setItem("lawyer_email", res.data.lawyer.contact_email);

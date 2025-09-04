@@ -21,7 +21,7 @@ function Signup() {
 
   const checkUser = async () => {
     try {
-      const res = await axios.post("http://localhost:5000/auth/check-user", {
+      const res = await axios.post(`https://c5ncaxcfy75src72lftiertdgm0wvqiy.lambda-url.ap-southeast-2.on.aws/auth/check-user`, {
         username: formData.username,
         email: formData.email,
       });
@@ -30,7 +30,7 @@ function Signup() {
       } else if (formData.password !== formData.confirmPassword) {
         alert("Passwords do not match!");
       } else {
-        await axios.post("http://localhost:5000/auth/send-otp", {
+        await axios.post(`https://c5ncaxcfy75src72lftiertdgm0wvqiy.lambda-url.ap-southeast-2.on.aws/auth/send-otp`, {
           email: formData.email,
         });
         alert("OTP sent to your email!");
@@ -43,7 +43,7 @@ function Signup() {
 
   const handleSignup = async () => {
     try {
-      const res = await axios.post("http://localhost:5000/auth/signup", formData);
+      const res = await axios.post(`https://c5ncaxcfy75src72lftiertdgm0wvqiy.lambda-url.ap-southeast-2.on.aws/auth/signup`, formData);
       if (res.data.success) {
         alert("Signup successful!");
         navigate('/open')

@@ -12,7 +12,7 @@ function Dashboard() {
   useEffect(() => {
     if (username) {
       axios
-        .get(`http://localhost:5000/auth/get-userid/${username}`)
+        .get(`https://c5ncaxcfy75src72lftiertdgm0wvqiy.lambda-url.ap-southeast-2.on.aws/auth/get-userid/${username}`)
         .then((res) => {
           localStorage.setItem("user_id", res.data.user_id);
           console.log("User ID saved in localStorage:", res.data.user_id);
@@ -21,7 +21,7 @@ function Dashboard() {
 
       // Fetch documents
       axios
-        .get(`http://localhost:5000/documents/${username}`)
+        .get(`https://c5ncaxcfy75src72lftiertdgm0wvqiy.lambda-url.ap-southeast-2.on.aws/documents/${username}`)
         .then((res) => setUserData(res.data))
         .catch((err) => console.error(err));
     }
@@ -30,7 +30,7 @@ function Dashboard() {
   if (!userData) return <p className="dashboard-loading">Loading...</p>;
 
   const handleDelete = async (docId) => {
-    await axios.delete(`http://localhost:5000/documents/${docId}`);
+    await axios.delete(`https://c5ncaxcfy75src72lftiertdgm0wvqiy.lambda-url.ap-southeast-2.on.aws/documents/${docId}`);
     setUserData({
       ...userData,
       documents: userData.documents.filter((d) => d.id !== docId),
@@ -39,7 +39,7 @@ function Dashboard() {
 
   const handlePublishQuery = async (docId) => {
     try {
-      await axios.post("http://localhost:5000/documents/queries", {
+      await axios.post(`https://c5ncaxcfy75src72lftiertdgm0wvqiy.lambda-url.ap-southeast-2.on.aws/documents/queries`, {
         user_id: localStorage.getItem("user_id"),
         document_id: docId,
         query_topic: `Query about ${docId}`,
