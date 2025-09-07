@@ -53,7 +53,7 @@ function Chats() {
     setText("");
 
     try {
-      await axios.post("https://c5ncaxcfy75src72lftiertdgm0wvqiy.lambda-url.ap-southeast-2.on.aws/documents/chats", {
+      await axios.post(`https://c5ncaxcfy75src72lftiertdgm0wvqiy.lambda-url.ap-southeast-2.on.aws/documents/chats`, {
         query_id: queryId,
         sender_id: senderId,      // ✅ dynamic id
         sender_type: senderType,  // ✅ "user" or "attorney"
